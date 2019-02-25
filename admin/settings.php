@@ -1,4 +1,17 @@
 <?php
+
+if ( empty($_SESSION['__devReload']) ) {
+  $_SESSION['__devReload'] = false;
+}
+
+if ( !empty($_GET['toggleDev']) ) {
+  if ( $_GET['toggleDev'] == 'false' ) {
+    $_SESSION['__devReload'] = false;
+  } else {
+    $_SESSION['__devReload'] = $_GET['toggleDev'] == 'true' ? 'localhost:8080' : $_GET['toggleDev'];
+  }
+}
+
 if ( !class_exists('Kohkane_Admin' ) ):
   class Kohkane_Admin {
 
@@ -8,6 +21,7 @@ if ( !class_exists('Kohkane_Admin' ) ):
       $this->settings_api = new WeDevs_Settings_API;
       add_action( 'admin_init', array($this, 'admin_init') );
       add_action( 'admin_menu', array($this, 'admin_menu') );
+      add_action( 'admin_enqueue_scripts', array( $this, 'add_scripts' ) );
     }
 
     function admin_init() {
@@ -17,6 +31,43 @@ if ( !class_exists('Kohkane_Admin' ) ):
 
       //initialize settings
       $this->settings_api->admin_init();
+    }
+
+    public function add_scripts() {
+      if (!empty($_SESSION) && $_SESSION['__devReload'] ) {
+        // wp_enqueue_script('main-dev', 'http://' . $_SESSION['__devReload'] . '/app.js', NULL, NULL, TRUE);
+
+        wp_enqueue_script(
+          'wp-kohkane-vendor',
+          'http://' . $_SESSION['__devReload'] . '/chunk-vendors.js',
+          null,
+          null,
+          true
+        );
+        wp_enqueue_script(
+          'wp-kohkane',
+          'http://' . $_SESSION['__devReload'] . '/app.js',
+          array('wp-kohkane-vendor'),
+          null,
+          true
+        );
+
+      } else {
+        wp_enqueue_script(
+          'wp-kohkane-vendor',
+          plugin_dir_url( __FILE__ ) . '../assets/dist/js/chunk-vendors.js',
+          null,
+          filemtime(plugin_dir_path( __FILE__ ) . '../assets/dist/js/chunk-vendors.js'),
+          true
+        );
+        wp_enqueue_script(
+          'wp-kohkane',
+          plugin_dir_url( __FILE__ ) . '../assets/dist/js/app.js',
+          array('wp-kohkane-vendor'),
+          filemtime(plugin_dir_path( __FILE__ ) . '../assets/dist/js/app.js'),
+          true
+        );
+      }
     }
 
     function admin_menu() {
@@ -57,48 +108,7 @@ if ( !class_exists('Kohkane_Admin' ) ):
             'type'              => 'text',
             'default'           => '',
             'sanitize_callback' => 'sanitize_text_field'
-          ),
-          // array(
-          //   'name'              => 'streammonkey_channel_id',
-          //   'label'             => __( 'Channel ID', 'kohkane' ),
-          //   'desc'              => __( 'The ID of the channel you\'re displaying.', 'kohkane' ),
-          //   'placeholder'       => __( 'XXXXXXX', 'kohkane' ),
-          //   'type'              => 'text',
-          //   'default'           => '',
-          //   'sanitize_callback' => 'sanitize_text_field'
-          // ),
-          // array(
-          //   'name'        => 'html',
-          //   'desc'        => __( '<hr>', 'kohkane' ),
-          //   'type'        => 'html'
-          // ),
-          // array(
-          //   'name'              => 'streammonkey_recent_messages_id',
-          //   'label'             => __( 'Recent Messages<br> Category ID', 'kohkane' ),
-          //   'desc'              => __( 'The ID of the category you\'re using to catalog your message archives', 'kohkane' ),
-          //   'placeholder'       => __( 'XXXXXXX', 'kohkane' ),
-          //   'type'              => 'text',
-          //   'default'           => '',
-          //   'sanitize_callback' => 'sanitize_text_field'
-          // ),
-          // array(
-          //   'name'              => 'streammonkey_series_id',
-          //   'label'             => __( 'Series<br> Category ID', 'kohkane' ),
-          //   'desc'              => __( 'The ID of the category you\'re using to catalog your series', 'kohkane' ),
-          //   'placeholder'       => __( 'XXXXXXX', 'kohkane' ),
-          //   'type'              => 'text',
-          //   'default'           => '',
-          //   'sanitize_callback' => 'sanitize_text_field'
-          // ),
-          // array(
-          //   'name'              => 'streammonkey_series_id',
-          //   'label'             => __( 'Series<br> Category ID', 'kohkane' ),
-          //   'desc'              => __( 'The ID of the category you\'re using to catalog your series', 'kohkane' ),
-          //   'placeholder'       => __( 'XXXXXXX', 'kohkane' ),
-          //   'type'              => 'text',
-          //   'default'           => '',
-          //   'sanitize_callback' => 'sanitize_text_field'
-          // ),
+          )
         )
       );
 

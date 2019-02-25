@@ -45,7 +45,6 @@ class Kohkane
 	public function add_scripts() {
     // wp_register_script( 'font-awesome', "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", null, null);
     // wp_register_script( 'matchheight', "https://cdnjs.cloudflare.com/ajax/libs/jquery.matchHeight/0.7.2/jquery.matchHeight-min.js", ['jquery'], '', true );
-    // wp_register_script( 'kohkane', plugin_dir_url( __FILE__ ) . 'assets/dist/build.js', '', '', true );
 	}
 
   public function settings_link( $links ) {
