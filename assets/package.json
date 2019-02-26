@@ -23,6 +23,7 @@
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
     "normalize.css": "^8.0.1",
+    "postcss-color-function": "^4.0.1",
     "vue-template-compiler": "^2.5.21"
   }
 }

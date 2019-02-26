@@ -60,12 +60,26 @@ if ( !class_exists('Kohkane_Admin' ) ):
           filemtime(plugin_dir_path( __FILE__ ) . '../assets/dist/js/chunk-vendors.js'),
           true
         );
+        wp_enqueue_style(
+          'wp-kohkane-vendor-css',
+          plugin_dir_url( __FILE__ ) . '../assets/dist/css/chunk-vendors.css',
+          null,
+          filemtime(plugin_dir_path( __FILE__ ) . '../assets/dist/css/chunk-vendors.css'),
+          null
+        );
         wp_enqueue_script(
           'wp-kohkane',
           plugin_dir_url( __FILE__ ) . '../assets/dist/js/app.js',
           array('wp-kohkane-vendor'),
           filemtime(plugin_dir_path( __FILE__ ) . '../assets/dist/js/app.js'),
           true
+        );
+        wp_enqueue_style(
+          'wp-kohkane-css',
+          plugin_dir_url( __FILE__ ) . '../assets/dist/css/app.css',
+          null,
+          filemtime(plugin_dir_path( __FILE__ ) . '../assets/dist/css/app.css'),
+          null
         );
       }
     }
@@ -77,7 +91,7 @@ if ( !class_exists('Kohkane_Admin' ) ):
         'manage_options',
         'kohkane_plugin',
         array($this, 'plugin_page'),
-        'dashicons-rss',
+        plugin_dir_url( __FILE__ ) . '../assets/public/img/kohkane-icon-sm.png',
         50
       );
     }

@@ -1,8 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,400i,500,500i,700,700i,800,800i');
+@import url('https://fonts.googleapis.com/css?family=Neuton:300,400,400i,700');
+
 :root {
-  --brandPrimary: rebeccapurple;
-  --brandPrimaryRGB: '102,51,153';
-  --brandSecondary: #00bad3;
-  --brandTertiary: #ffb600;
+  --brandPrimary: #399bf9;
+  --brandPrimaryShaded: color(#399bf9 shade(20%));
+  --brandSecondary: #fdc139;
+  --brandSecondaryShaded: color(#fdc139 shade(10%));
+  --brandTertiary: #ff656f;
   --white: #ffffff;
   --lighterGray: #e1e1e1;
   --lightGray: #d2d8dd;
